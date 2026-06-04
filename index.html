@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Métodos Numéricos - Simulación de Crisis</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Chart.js para gráficos -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+    <header>
+        <h1>📊 Simulación Numérica de Abastecimiento, Precios y Conflicto Social</h1>
+        <p>Métodos Numéricos aplicados a problemas reales en contexto de crisis</p>
+    </header>
+
+    <nav>
+        <button class="tab-btn active" data-tab="inicio">🏠 Inicio</button>
+        <button class="tab-btn" data-tab="interpolacion">📈 Interpolación (Precios)</button>
+        <button class="tab-btn" data-tab="integracion">💰 Integración (Gasto familiar)</button>
+        <button class="tab-btn" data-tab="raices">🎯 Raíces (Punto crítico)</button>
+        <button class="tab-btn" data-tab="edo">⛽ EDO (Vaciado de reservas)</button>
+        <button class="tab-btn" data-tab="sistemas">🚚 Sistemas Lineales (Abastecimiento)</button>
+        <button class="tab-btn" data-tab="conclusiones">📝 Conclusiones</button>
+    </nav>
+
+    <main>
+        <!-- SECCIÓN INICIO -->
+        <section id="inicio" class="tab-content active">
+            <h2>Contexto del problema</h2>
+            <p>En el contexto actual, se observan problemas relacionados con el abastecimiento de carburantes, aumento de precios, pérdida del poder adquisitivo y conflictos sociales. Este simulador utiliza <strong>métodos numéricos</strong> para modelar y analizar estos fenómenos.</p>
+            
+            <h3>🎯 Objetivo</h3>
+            <p>Proveer una herramienta interactiva que permita simular distintos escenarios mediante:</p>
+            <ul>
+                <li><strong>Interpolación:</strong> Reconstruir curvas de precios a partir de datos dispersos</li>
+                <li><strong>Integración numérica:</strong> Calcular costo acumulado de canasta básica</li>
+                <li><strong>Raíces de ecuaciones:</strong> Encontrar puntos críticos de abastecimiento</li>
+                <li><strong>Ecuaciones diferenciales:</strong> Simular vaciado de reservas</li>
+                <li><strong>Sistemas lineales:</strong> Optimizar distribución de productos</li>
+            </ul>
+            
+            <h3>📌 ¿Cómo usar?</h3>
+            <p>Haz clic en cada pestaña, ingresa los datos y presiona "Calcular". Cada módulo explica el método numérico utilizado.</p>
+        </section>
+
+        <!-- SECCIÓN INTERPOLACIÓN -->
+        <section id="interpolacion" class="tab-content">
+            <h2>📈 Interpolación de precios - Método de Lagrange</h2>
+            <p>Estima el precio de un producto en un día sin dato, usando interpolación polinomial de Lagrange.</p>
+            
+            <h3>Datos de ejemplo (Precio de la papa por día)</h3>
+            <table>
+                <tr><th>Día</th><th>Precio (Bs)</th></tr>
+                <tr><td>1</td><td>8</td></tr>
+                <tr><td>5</td><td>10</td></tr>
+                <tr><td>10</td><td>13</td></tr>
+                <tr><td>15</td><td>16</td></tr>
+                <tr><td>20</td><td>19</td></tr>
+                <tr><td>30</td><td>22</td></tr>
+            </table>
+            
+            <label for="diaInterpolar">Día a interpolar:</label>
+            <input type="number" id="diaInterpolar" value="12" step="1">
+            <button id="btnInterpolar">Calcular precio</button>
+            
+            <div class="resultado">
+                <h3>Resultado:</h3>
+                <p id="resultadoInterpolacion">---</p>
+            </div>
+            
+            <details>
+                <summary>📖 Explicación del algoritmo</summary>
+                <p>Se usa el <strong>Polinomio de Lagrange</strong> que encuentra un polinomio de grado n-1 que pasa por todos los puntos dados. Luego evalúa ese polinomio en el día deseado.</p>
+            </details>
+        </section>
+
+        <!-- SECCIÓN INTEGRACIÓN -->
+        <section id="integracion" class="tab-content">
+            <h2>💰 Integración numérica - Gasto mensual familiar</h2>
+            <p>Calcula el costo acumulado de una canasta básica cuyos precios cambian diariamente.</p>
+            
+            <label for="preciosDiarios">Precios diarios (separados por coma):</label>
+            <input type="text" id="preciosDiarios" size="60" value="8,8.5,9,9.5,10,10.5,11,11.5,12,12.5,13,13.5,14,14.5,15,15.5,16,16.5,17,17.5,18,18.5,19,19.5,20,20.5,21,21.5,22,22.5">
+            
+            <label for="metodoIntegracion">Método:</label>
+            <select id="metodoIntegracion">
+                <option value="trapecio">Regla del Trapecio</option>
+                <option value="simpson13">Simpson 1/3</option>
+                <option value="simpson38">Simpson 3/8</option>
+            </select>
+            
+            <button id="btnIntegrar">Calcular gasto total</button>
+            
+            <div class="resultado">
+                <h3>Resultado:</h3>
+                <p id="resultadoIntegracion">---</p>
+                <p id="poderAdquisitivo">---</p>
+            </div>
+            
+            <details>
+                <summary>📖 Explicación del algoritmo</summary>
+                <p>La integral de la función precio representa el gasto acumulado. Se usan métodos de integración numérica para aproximar el área bajo la curva.</p>
+            </details>
+        </section>
+
+        <!-- SECCIÓN RAÍCES -->
+        <section id="raices" class="tab-content">
+            <h2>🎯 Raíces de ecuaciones - Punto crítico de abastecimiento</h2>
+            <p>Encuentra el punto donde el costo acumulado iguala el ingreso familiar (punto de quiebre).</p>
+            
+            <label for="funcionRaiz">Función f(x):</label>
+            <input type="text" id="funcionRaiz" value="x^2 - 10" size="40">
+            <small>(ej: x^2 - 10, x^3 - 5*x + 1)</small>
+            
+            <label for="a">Intervalo a:</label>
+            <input type="number" id="a" value="0" step="0.5">
+            
+            <label for="b">Intervalo b:</label>
+            <input type="number" id="b" value="5" step="0.5">
+            
+            <label for="metodoRaiz">Método:</label>
+            <select id="metodoRaiz">
+                <option value="biseccion">Bisección</option>
+                <option value="newton">Newton-Raphson</option>
+            </select>
+            
+            <button id="btnRaiz">Calcular raíz</button>
+            
+            <div class="resultado">
+                <h3>Resultado:</h3>
+                <p id="resultadoRaiz">---</p>
+                <p id="iteracionesRaiz">---</p>
+            </div>
+        </section>
+
+        <!-- SECCIÓN EDO -->
+        <section id="edo" class="tab-content">
+            <h2>⛽ Ecuación Diferencial - Vaciado de reservas de carburante</h2>
+            <p>Simula cómo disminuye la reserva R(t) en función del consumo y reabastecimiento.</p>
+            
+            <label for="capacidadInicial">Reserva inicial (litros):</label>
+            <input type="number" id="capacidadInicial" value="10000">
+            
+            <label for="consumoDiario">Consumo diario constante (litros/día):</label>
+            <input type="number" id="consumoDiario" value="800">
+            
+            <label for="reabastecimientoDiario">Reabastecimiento diario (litros/día):</label>
+            <input type="number" id="reabastecimientoDiario" value="200">
+            
+            <label for="diasSimular">Días a simular:</label>
+            <input type="number" id="diasSimular" value="30">
+            
+            <label for="metodoEDO">Método:</label>
+            <select id="metodoEDO">
+                <option value="euler">Euler</option>
+            </select>
+            
+            <button id="btnEDO">Simular</button>
+            
+            <div class="resultado">
+                <h3>Resultado:</h3>
+                <p id="resultadoEDO">---</p>
+                <canvas id="graficoEDO" width="400" height="200" style="max-width:100%; height:auto;"></canvas>
+            </div>
+        </section>
+
+        <!-- SECCIÓN SISTEMAS LINEALES -->
+        <section id="sistemas" class="tab-content">
+            <h2>🚚 Sistemas de ecuaciones lineales - Abastecimiento por zonas</h2>
+            <p>Resuelve la distribución de combustible desde 3 plantas hacia 3 zonas.</p>
+            
+            <h3>Matriz del sistema (Ax = b)</h3>
+            <p>Ecuaciones:<br>
+            2x₁ + 1x₂ + 1x₃ = 100 (Zona Norte)<br>
+            1x₁ + 3x₂ + 1x₃ = 150 (Zona Centro)<br>
+            1x₁ + 1x₂ + 4x₃ = 120 (Zona Sur)<br>
+            </p>
+            
+            <button id="btnSistema">Resolver sistema (Jacobi)</button>
+            
+            <div class="resultado">
+                <h3>Solución:</h3>
+                <p id="resultadoSistema">---</p>
+            </div>
+        </section>
+
+        <!-- SECCIÓN CONCLUSIONES -->
+        <section id="conclusiones" class="tab-content">
+            <h2>📝 Conclusiones y limitaciones del modelo</h2>
+            <p><strong>✅ Qué se aprendió:</strong> Los métodos numéricos permiten modelar fenómenos reales como precios, abastecimiento y dinámica social.</p>
+            <p><strong>⚠️ Limitaciones:</strong> Los modelos son simplificaciones. La precisión depende del método y los datos de entrada.</p>
+            <p><strong>🔧 Mejoras futuras:</strong> Añadir más métodos (RK4, Gauss-Seidel), más escenarios y validación con datos reales.</p>
+            <p><strong>📌 Método más útil:</strong> La integración numérica y las EDOs son las más aplicables para problemas económicos y de recursos.</p>
+        </section>
+    </main>
+
+    <footer>
+        <p>Métodos Numéricos - Simulación en contexto de crisis | Proyecto final</p>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
