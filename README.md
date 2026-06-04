@@ -61,8 +61,8 @@ Demostrar cómo los métodos numéricos (interpolación, integración, raíces d
 
 ## 🔗 Enlaces
 
-- 🌐 **Página web publicada**: [https://TUUSUARIO.github.io/proyecto-metodos-numericos/](https://TUUSUARIO.github.io/proyecto-metodos-numericos/)
-- 💾 **Repositorio Git**: [https://github.com/TUUSUARIO/proyecto-metodos-numericos](https://github.com/TUUSUARIO/proyecto-metodos-numericos)
+- 🌐 **Página web publicada**: [https://Diego-bueno.github.io/proyecto-metodos-numericos/](https://TUUSUARIO.github.io/proyecto-metodos-numericos/)
+- 💾 **Repositorio Git**: [https://github.com/Diego-bueno/proyecto-metodos-numericos](https://github.com/TUUSUARIO/proyecto-metodos-numericos)
 
 > ⚠️ *Reemplazar `TUUSUARIO` con tu nombre de usuario de GitHub*
 
